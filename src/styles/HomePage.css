@@ -1,0 +1,22 @@
+.HomePage {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    color: #005587;
+    font-size: 1.25rem;
+}
+
+.HomePage .Social {
+    width: 60%;
+    text-align: left;
+}
+
+.HomePage .Committee {
+    width: 60%;
+    text-align: left;
+}
+
+.HomePage .SAA {
+    width: 60%;
+    text-align: left;
+}

@@ -14,7 +14,7 @@ function LandingPage() {
             <TextField fullWidth id="standard-basic" label="Email" variant="standard" />
             <TextField fullWidth id="standard-basic" label="Password" variant="standard" />
         </Stack>
-        <Button variant="contained">Login</Button>
+        <Button style={{margin: '2rem'}}variant="contained">Login</Button>
       </div>
     </div>
   );

@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import LandingPage from './screens/LandingPage';
+import HomePage from './screens/HomePage';
+import Header from './models/header/Header.js'
+import firebase from './firebase.js'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,7 +12,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <LandingPage/>
+    <Header/>
+    <HomePage/>
+  
   </React.StrictMode>
 );
 
