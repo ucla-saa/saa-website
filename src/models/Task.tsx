@@ -12,6 +12,7 @@ interface TaskProps
 function Task (props: TaskProps)  {
     const {assigned, category, completion, date, task} = props;
     const isStrikeThru = completion ? 'line-through' : 'none';
+    const urlToDirectoryImage = '../photos/directory_photo_neilkardan.png'
     return (
         <div className="task">
             <li>
@@ -20,7 +21,6 @@ function Task (props: TaskProps)  {
                 Mark as complete
                 </button>
             </li>
-            
         </div>
     )
 

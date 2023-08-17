@@ -4,6 +4,7 @@ import './styles/index.css';
 import LandingPage from './screens/LandingPage';
 import HomePage from './screens/HomePage';
 import Header from './models/header/Header.js'
+import Directory from './screens/Directory'
 import firebase from './firebase.js'
 
 const root = ReactDOM.createRoot(
@@ -13,8 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Header/>
-    <HomePage/>
-  
+    <Directory/>
   </React.StrictMode>
 );
 
