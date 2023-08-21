@@ -40,7 +40,7 @@ const LandingPage = () => {
     const user = getAuth();
     if (user != null && user.currentUser != null) {
       setSignedIn(true);
-      console.log(getUserProfile(user.currentUser.uid))
+      return navigate("/home");
     }
   }
 
