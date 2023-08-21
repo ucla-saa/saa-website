@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
-import LandingPage from './screens/LandingPage';
-import HomePage from './screens/HomePage';
-import Header from './models/header/Header.js'
-import Directory from './screens/Directory'
-import firebase from './firebase.js'
-import AddNewTask from './screens/AddNewTask';
-import CreateUser from './screens/CreateUser';
+import LandingPage from './src/screens/LandingPage';
+import HomePage from './src/screens/HomePage';
+import Header from './src/models/header/Header.js'
+import Directory from './src/screens/Directory'
+import firebase from './src/firebase.js'
+import AddNewTask from './src/screens/AddNewTask';
+import CreateUser from './src/screens/CreateUser';
 import {
   createBrowserRouter,
   RouterProvider,
