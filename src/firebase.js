@@ -2,7 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase} from "firebase/database";
-import { ref, child, get } from "firebase/database";
+import { ref, child, get, set } from "firebase/database";
+import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence} from 'firebase/auth';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,9 +26,82 @@ export const firebase = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebase);
 const database = getDatabase(firebase);
 
+
+export async function isUserSignedIn() {
+    const auth = getAuth();
+    if (auth) {
+        console.log(auth);
+        return auth.currentUser !== null ? true : false;
+    }
+    else return false;
+}
+
 export async function getTasks() {
     try {
         const database = await get(child(ref(getDatabase()), `tasks`));
+        if (database.val()) {
+            console.log(database.val());
+            return database.val();
+        }
+    }
+    catch (error) {
+        console.error('error: ', error)
+        throw error;
+    }
+}
+
+export async function signInUser(email, password) {
+    const auth = getAuth();
+    setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error("error code:", errorCode)
+            console.error("error message:", errorMessage)
+        })
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error("error code:", errorCode)
+        console.error("error message:", errorMessage)
+    })
+}
+
+export async function createNewUser(data) {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        const db = getDatabase();
+        set(ref(db, 'users/' + user.uid), {
+            bod: data.bod,
+            committee: data.committee,
+            email: user.email,
+            major: data.major,
+            makeupHours: data.makeupHours,
+            name: data.name,
+            phone: data.phone,
+            position: data.position
+        });
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error("error code:", errorCode)
+        console.error("error message:", errorMessage)
+    });
+}
+
+export async function getUserProfile(uid) {
+    try {
+        const database = await get(child(ref(getDatabase()), `users/` + uid));
         if (database.val()) {
             console.log(database.val());
             return database.val();

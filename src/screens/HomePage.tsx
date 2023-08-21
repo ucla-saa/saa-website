@@ -1,12 +1,14 @@
 import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
-import { getDatabase, ref, get, child} from "firebase/database";
 import '../styles/HomePage.css';
-import firebase, { getTasks } from '../firebase.js';
+import firebase, { getTasks, isUserSignedIn } from '../firebase.js';
 import Task from '../models/Task';
+import {useNavigate} from 'react-router-dom'
 
 const HomePage = () => {
     const [tasks, setTasks] = useState<Array<any>>([]);
+    const [signedIn, setSignedIn] = useState<boolean>(true);
+    let navigate = useNavigate();
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -15,7 +17,20 @@ const HomePage = () => {
         fetchTasks();
     }, []);
 
-    
+    useEffect(() => {
+        const isSignedIn = async () => {
+            const signedIn = await isUserSignedIn();
+            setSignedIn(signedIn);
+        }
+        isSignedIn();
+    }, []);
+
+    useEffect(() => {
+        if (!signedIn) {
+            return navigate("/")
+        }
+    }, [signedIn]);
+
 
     
     return(

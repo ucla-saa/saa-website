@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Toolbar';
 import '../../styles/Header.css';
+import {Link} from 'react-router-dom'
 
 
 const Header = () => {
@@ -13,13 +14,10 @@ const Header = () => {
                 <AppBar elevation={0} position="sticky" sx={{bgcolor: '#fcfffc', color: '#121212'}}>
                     <Toolbar>
                         <Typography className="btn" variant='h3' component='h3'>
-                            <a href="/">home</a>
+                            <Link to="/home">home</Link>
                         </Typography>
                         <Typography className="btn" variant='h3' component='h3'>
-                            <a href="/#projects">directory</a>
-                        </Typography>
-                        <Typography className="btn" variant='h3' component='h3'>
-                            <a href="/#about">about</a>
+                            <Link to="/directory">directory</Link>
                         </Typography>
                     </Toolbar>
                 </AppBar>
