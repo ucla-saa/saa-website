@@ -12,7 +12,7 @@ import {getAuth} from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
-  const [signedIn, setSignedIn] = useState<boolean>(false);
+  const [signedIn, setSignedIn] = useState<boolean>(getAuth() !== null && getAuth().currentUser !== null);
   let navigate = useNavigate();
   
   useEffect(() => {

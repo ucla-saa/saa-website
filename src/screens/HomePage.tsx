@@ -45,14 +45,14 @@ const HomePage = () => {
     
     return(
         <div className="HomePage">
-           <h1>This Week in SAA</h1>
+           <h1>This Week in SAA {user && user.name && <text>for {user.name}:</text>}</h1>
            <div className="Social">
-                {user && user.name && <h2>Welcome {user.name}!</h2>}
+                
                 <h2>
                     Social
                 </h2>
                    <ul>
-                   {tasks.length !== 0 && tasks
+                   {(tasks.length !== 0 && tasks.filter(task => task.category == "social").length !== 0) ? tasks
                    .filter(task => task.category == "social")
                    .map(task => (
                     <Task 
@@ -62,7 +62,7 @@ const HomePage = () => {
                                 date={task.date}
                                 task={task.task}
                             />
-                    ))}
+                    )) : <p>Nothing to see here!</p>}
                    </ul>
            </div>
            <div className="Committee">

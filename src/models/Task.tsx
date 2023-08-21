@@ -1,4 +1,4 @@
-
+import {Button} from '@mui/material'
 interface TaskProps
 {
     
@@ -16,10 +16,10 @@ function Task (props: TaskProps)  {
     return (
         <div className="task">
             <li>
-                <p style={{textDecoration: isStrikeThru}}>{task}</p>{category} {assigned} {completion} <br/>{date}
-                <button>
-                Mark as complete
-                </button>
+            <text style={{textDecoration: isStrikeThru}}>{task} - Due by: {date}</text>
+                <Button style={{marginTop: '-.2rem', float: 'right'}} variant={"contained"}>
+                    COMPLETE
+                </Button>
             </li>
         </div>
     )

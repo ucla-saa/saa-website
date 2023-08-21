@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase} from "firebase/database";
 import { ref, child, get, set } from "firebase/database";
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence} from 'firebase/auth';
+import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, signOut} from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -71,6 +71,15 @@ export async function signInUser(email, password) {
         const errorMessage = error.message;
         console.error("error code:", errorCode)
         console.error("error message:", errorMessage)
+    })
+}
+
+export async function signOutUser() {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        console.log("Signed out")
+    }).catch((error) => {
+        console.log("Failed to sign out", error.message)
     })
 }
 
