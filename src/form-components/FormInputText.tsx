@@ -19,13 +19,12 @@ export const FormInputText = ({ name, control, label }: FormInputProps) => {
         formState,
       }) => (
         <TextField
-        multiline
           helperText={error ? error.message : null}
+          fullWidth
           size="small"
           error={!!error}
           onChange={onChange}
           value={value}
-          fullWidth
           label={label}
           variant="outlined"
         />

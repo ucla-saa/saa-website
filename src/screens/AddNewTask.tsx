@@ -4,7 +4,10 @@ import { FormInputDate } from "../form-components/FormInputDatePicker";
 import { FormInputDropdown } from "../form-components/FormInputDropdown";
 import { FormInputText } from "../form-components/FormInputText";
 import {Option} from  '../form-components/FormInputDropdown';
-import {assigneeOptions} from '../form-components/ConstantObjects';
+import {assigneeOptions, committeeOptions, getAssigneeOptions} from '../form-components/ConstantObjects';
+import {User} from '../models/User'
+import React, { useEffect, useState } from 'react';
+import { getCurrentProfile } from "../firebase";
 
 interface TaskFormInput {
     textValue: string,
@@ -16,11 +19,22 @@ const defaultValues = {
 }
 
 const AddNewTask = () => {
+    const [user, setUser] = useState<User>()
+    useEffect(() => {
+        const getUser = async () => {
+            const currentProfile = await getCurrentProfile();
+            setUser(currentProfile);
+        }
+        getUser();
+    }, []);
+    
     const { handleSubmit, reset, control, setValue } = useForm<TaskFormInput>({
         defaultValues: defaultValues,
       });
 
     const onSubmit = (data: TaskFormInput) => console.log(data);
+
+    const assigneeOptions = user?.committee ? getAssigneeOptions(user.committee) : committeeOptions;
 
     return(
         <div>

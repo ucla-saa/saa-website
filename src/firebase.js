@@ -75,7 +75,7 @@ export async function signInUser(email, password) {
 }
 
 export async function createNewUser(data) {
-    const auth = getAuth();
+    const auth = await getAuth();
     createUserWithEmailAndPassword(auth, data.email, data.password)
     .then((userCredential) => {
         const user = userCredential.user;
@@ -105,6 +105,35 @@ export async function getUserProfile(uid) {
         if (database.val()) {
             console.log(database.val());
             return database.val();
+        }
+    }
+    catch (error) {
+        console.error('error: ', error)
+        throw error;
+    }
+}
+
+export async function getCurrentProfile() {
+    try {
+        const auth = getAuth();
+        if (auth && auth.currentUser) {
+            return getUserProfile(auth.currentUser.uid);
+        }
+        return null;
+    }
+    catch (error) {
+        console.error('error: ', error);
+        throw error;
+    }
+}
+
+export async function getTasksByUser(user) {
+    try {
+        const database = await get(child(ref(getDatabase()), `tasks`))
+        if (database.val()) {
+            const tasks = database.val()
+                .filter(task => (task.category == user?.committee) || task.assigned == user?.position)
+            return tasks;
         }
     }
     catch (error) {

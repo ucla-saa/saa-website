@@ -29,6 +29,14 @@ const router = createHashRouter([
   {
     path: "/directory",
     element: <div><Header/><Directory/></div>
+  },
+  {
+    path: "/addnewtask",
+    element: <div><Header/><AddNewTask/></div>
+  },
+  {
+    path: "/createnewuser",
+    element: <div><Header/><CreateUser/></div>
   }
 ]);
 

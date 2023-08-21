@@ -4,9 +4,10 @@ import { FormInputDate } from "../form-components/FormInputDatePicker";
 import { FormInputDropdown } from "../form-components/FormInputDropdown";
 import { FormInputText } from "../form-components/FormInputText";
 import {Option} from  '../form-components/FormInputDropdown';
-import {committeeOptions} from '../form-components/ConstantObjects';
+import {committeeOptions, getCommitteePositions} from '../form-components/ConstantObjects';
 import { FormInputPassword } from "../form-components/FormInputPassword";
 import { createNewUser } from '../firebase';
+import { useEffect, useState } from "react";
 
 interface CreateUserInput {
     name: string,
@@ -33,12 +34,13 @@ const defaultValues = {
 }
 
 const CreateUser = () => {
-    const { handleSubmit, reset, control, setValue } = useForm<CreateUserInput>({
-        defaultValues: defaultValues,
+    const { handleSubmit, reset, control, setValue, watch, getValues } = useForm<CreateUserInput>({
+        defaultValues: defaultValues
       });
 
+    const watchCommittee = watch("committee", "");
+
     const onSubmit = (data: CreateUserInput) => {
-        console.log(data)
         createNewUser(data);
     }
 
@@ -81,6 +83,16 @@ const CreateUser = () => {
                 label="Committee"
                 options={committeeOptions}
             />
+            {watchCommittee && 
+            <div>
+                <h3> Position </h3>
+                <FormInputDropdown 
+                    name="position"
+                    control={control}
+                    label="Position"
+                    options={getCommitteePositions(getValues("committee"))}
+                />
+            </div>}
             <Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
                 Submit
             </Button>
