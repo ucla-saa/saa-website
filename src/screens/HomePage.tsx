@@ -5,6 +5,7 @@ import firebase, { getCurrentProfile, getTasks, getTasksByUser, getUserProfile, 
 import Task from '../models/Task';
 import {useNavigate} from 'react-router-dom'
 import {User} from '../models/User'
+import {TaskCategory} from '../form-components/ConstantObjects';
 
 const HomePage = () => {
     const [tasks, setTasks] = useState<Array<any>>([]);
@@ -42,6 +43,8 @@ const HomePage = () => {
         }
         const fetchTasks = async () => {
             setTasks(await getTasksByUser(user));
+
+            console.log(tasks);
         }
         fetchTasks();
         getUID();
@@ -57,13 +60,15 @@ const HomePage = () => {
                     Social
                 </h2>
                    <ul>
-                   {(tasks.length !== 0 && tasks.filter(task => task.category == "social").length !== 0) ? tasks
-                   .filter(task => task.category == "social")
+                   {(tasks.length !== 0 && tasks.filter(task => task.category == TaskCategory.SOCIAL).length !== 0) ? tasks
+                   .filter(task => task.category == TaskCategory.SOCIAL)
                    .map(task => (
                     <Task 
+                                approved={task.approved}
                                 assigned={task.assigned}
                                 category={task.category}
                                 completion={task.completion}
+                                createdBy={task.createdBy}
                                 date={task.date}
                                 taskKey={task.key}
                                 task={task.task}
@@ -78,12 +83,14 @@ const HomePage = () => {
                 </h2>
                 <ul>
                     {tasks.length !== 0 && tasks
-                        .filter(task => task.category == user?.committee)
+                        .filter(task => task.category == TaskCategory.COMMITTEE && (task.assigned == user?.position || task.assigned == user?.committee))
                         .map(task => (
                             <Task 
+                                approved={task.approved}
                                 assigned={task.assigned}
                                 category={task.category}
                                 completion={task.completion}
+                                createdBy={task.createdBy}
                                 date={task.date}
                                 taskKey={task.key}
                                 task={task.task}
@@ -98,12 +105,14 @@ const HomePage = () => {
                 </h2>
                 <ul>
                     {tasks.length !== 0 && tasks
-                        .filter(task => task.category == "saa")
+                        .filter(task => task.category == TaskCategory.ALL_SAA)
                         .map(task => (
                             <Task 
+                                approved={task.approved}
                                 assigned={task.assigned}
                                 category={task.category}
                                 completion={task.completion}
+                                createdBy={task.createdBy}
                                 date={task.date}
                                 taskKey={task.key}
                                 task={task.task}

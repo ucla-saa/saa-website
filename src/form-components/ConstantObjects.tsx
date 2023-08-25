@@ -312,3 +312,27 @@ export const getAssigneeOptions = (committee: string) => {
             return committeeOptions;
     }
 }
+
+export const getCategoryOptions = () => {
+    const options : Option[] = [{ 
+        label: "Social",
+        value: "Social"
+    },
+    { 
+        label: "Committee",
+        value: "Committee"
+    },
+    { 
+        label: "SAA",
+        value: "SAA"
+    },]
+    
+    return options
+}
+
+export enum TaskCategory {
+    SOCIAL = 'Social',
+    ALL_SAA = 'SAA',
+    COMMITTEE = 'Committee'
+
+}

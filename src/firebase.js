@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getDatabase, update} from "firebase/database";
 import { ref, child, get, set, query, equalTo, push } from "firebase/database";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, signOut} from 'firebase/auth';
+import {O2A} from 'object-to-array-convert';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -150,10 +151,11 @@ export async function getTasksByUser(user) {
     try {
         const database = await get(child(ref(getDatabase()), `tasks`))
         if (database.val()) {
-            const tasks = database.val()
-                .filter(task => (task.category == user?.committee) || task.assigned == user?.position)
-            return tasks;
+            const tasks = Object.values(database.val())
+                .filter(task => (task.assigned == user?.committee) || task.assigned == user?.position || task.category == 'Social' ) 
+            return tasks
         }
+        return []
     }
     catch (error) {
         console.error('error: ', error)
@@ -161,15 +163,17 @@ export async function getTasksByUser(user) {
     }
 }
 
-export async function markTaskAsComplete(assigned, category, completion, date, task, key) {
+export async function markTaskAsComplete(approved, assigned, category, completion, createdBy, date, task, key) {
     try { 
         const db = getDatabase();
         const newTask = {
+            approved: approved,
             assigned: assigned,
             category: category,
             completion: completion,
             date: date,
             task: task,
+            createdBy: createdBy,
             key: key,
         }
 
@@ -180,6 +184,35 @@ export async function markTaskAsComplete(assigned, category, completion, date, t
     catch (error) {
         console.error('error: ', error);
         throw error;
+    }
+}
+
+export async function createNewTask(data) {
+    try {
+        const db = getDatabase();
+        const auth = getAuth();
+        if (auth && auth.currentUser) {
+            const newTaskKey = (await push(child(ref(db), 'tasks'))).key;
+            const newTask = {
+                approved: false,
+                assigned: data.assigned,
+                category: data.category,
+                completion: [''],
+                date: data.date,
+                task: data.task,
+                key: newTaskKey,
+                createdBy:  auth.currentUser.uid
+            }
+            const addToDB = {}
+            addToDB['/tasks/' + newTaskKey] = newTask;
+            return update(ref(db), addToDB);
+        }
+        else {
+            throw 'error';
+        }
+    }
+    catch (error) {
+        console.error('error: ', error);
     }
 }
 
