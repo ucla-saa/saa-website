@@ -65,6 +65,7 @@ const HomePage = () => {
                                 category={task.category}
                                 completion={task.completion}
                                 date={task.date}
+                                taskKey={task.key}
                                 task={task.task}
                                 uid={uid}
                             />
@@ -84,6 +85,7 @@ const HomePage = () => {
                                 category={task.category}
                                 completion={task.completion}
                                 date={task.date}
+                                taskKey={task.key}
                                 task={task.task}
                                 uid={uid}
                             />
@@ -103,6 +105,7 @@ const HomePage = () => {
                                 category={task.category}
                                 completion={task.completion}
                                 date={task.date}
+                                taskKey={task.key}
                                 task={task.task}
                                 uid={uid}
                             />

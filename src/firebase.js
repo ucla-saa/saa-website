@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, update} from "firebase/database";
-import { ref, child, get, set, push } from "firebase/database";
+import { ref, child, get, set, query, equalTo, push } from "firebase/database";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, signOut} from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -30,7 +30,6 @@ const database = getDatabase(firebase);
 export async function isUserSignedIn() {
     const auth = getAuth();
     if (auth) {
-        console.log(auth);
         return auth.currentUser !== null ? true : false;
     }
     else return false;
@@ -40,7 +39,6 @@ export async function getTasks() {
     try {
         const database = await get(child(ref(getDatabase()), `tasks`));
         if (database.val()) {
-            console.log(database.val());
             return database.val();
         }
     }
@@ -57,7 +55,6 @@ export async function signInUser(email, password) {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log(user);
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -112,7 +109,6 @@ export async function getUserProfile(uid) {
     try {
         const database = await get(child(ref(getDatabase()), `users/` + uid));
         if (database.val()) {
-            console.log(database.val());
             return database.val();
         }
     }
@@ -165,7 +161,7 @@ export async function getTasksByUser(user) {
     }
 }
 
-export async function markTaskAsComplete(assigned, category, completion, date, task, uid) {
+export async function markTaskAsComplete(assigned, category, completion, date, task, key) {
     try { 
         const db = getDatabase();
         const newTask = {
@@ -174,12 +170,11 @@ export async function markTaskAsComplete(assigned, category, completion, date, t
             completion: completion,
             date: date,
             task: task,
+            key: key,
         }
 
         const updates = {}
-        const taskKey = get(child(ref(db), 'tasks')).key
-        updates['/tasks/' + taskKey] = newTask
-
+        updates['/tasks/' + newTask.key] = newTask
         return update(ref(db), updates);
     }
     catch (error) {
