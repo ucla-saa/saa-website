@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
 import '../styles/HomePage.css';
-import firebase, { getCurrentProfile, getTasks, getTasksByUser, getUserProfile, isUserSignedIn } from '../firebase.js';
+import firebase, { getCurrentProfile, getTasks, getTasksByUser, getUserProfile, getUserUID, isUserSignedIn } from '../firebase.js';
 import Task from '../models/Task';
 import {useNavigate} from 'react-router-dom'
 import {User} from '../models/User'
@@ -9,8 +9,9 @@ import {User} from '../models/User'
 const HomePage = () => {
     const [tasks, setTasks] = useState<Array<any>>([]);
     const [signedIn, setSignedIn] = useState<boolean>(true);
-
     const [user, setUser] = useState<User>()
+    const [uid, setUID] = useState<any>("");
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -36,10 +37,14 @@ const HomePage = () => {
     }, []);
 
     useEffect(() => {
+        const getUID = async () => {
+            setUID(await getUserUID());
+        }
         const fetchTasks = async () => {
             setTasks(await getTasksByUser(user));
         }
         fetchTasks();
+        getUID();
     }, [user]);
 
     
@@ -61,6 +66,7 @@ const HomePage = () => {
                                 completion={task.completion}
                                 date={task.date}
                                 task={task.task}
+                                uid={uid}
                             />
                     )) : <p>Nothing to see here!</p>}
                    </ul>
@@ -79,6 +85,7 @@ const HomePage = () => {
                                 completion={task.completion}
                                 date={task.date}
                                 task={task.task}
+                                uid={uid}
                             />
                     ))}
                 </ul>
@@ -97,6 +104,7 @@ const HomePage = () => {
                                 completion={task.completion}
                                 date={task.date}
                                 task={task.task}
+                                uid={uid}
                             />
                     ))}
                 </ul>

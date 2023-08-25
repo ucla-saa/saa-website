@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase} from "firebase/database";
-import { ref, child, get, set } from "firebase/database";
+import { getDatabase, update} from "firebase/database";
+import { ref, child, get, set, push } from "firebase/database";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, signOut} from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -136,6 +136,20 @@ export async function getCurrentProfile() {
     }
 }
 
+export async function getUserUID() {
+    try {
+        const auth = getAuth();
+        if (auth && auth.currentUser) {
+            return auth.currentUser.uid;
+        }
+        return null;
+    }
+    catch (error) {
+        console.error('error: ', error);
+        throw error;
+    }
+}
+
 export async function getTasksByUser(user) {
     try {
         const database = await get(child(ref(getDatabase()), `tasks`))
@@ -147,6 +161,29 @@ export async function getTasksByUser(user) {
     }
     catch (error) {
         console.error('error: ', error)
+        throw error;
+    }
+}
+
+export async function markTaskAsComplete(assigned, category, completion, date, task, uid) {
+    try { 
+        const db = getDatabase();
+        const newTask = {
+            assigned: assigned,
+            category: category,
+            completion: completion,
+            date: date,
+            task: task,
+        }
+
+        const updates = {}
+        const taskKey = get(child(ref(db), 'tasks')).key
+        updates['/tasks/' + taskKey] = newTask
+
+        return update(ref(db), updates);
+    }
+    catch (error) {
+        console.error('error: ', error);
         throw error;
     }
 }
