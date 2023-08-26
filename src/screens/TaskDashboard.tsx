@@ -59,14 +59,15 @@ const TaskDashboard = () => {
             <div className="Unapproved">
                 <h1> Unapproved Tasks </h1>
                 <div className="UnapprovedTasks">
-                    {tasks.length !== 0 && tasks.filter(task => !task.approved)
+                    {tasks.filter(task => !task.approved)
+                        .filter(task => task.assigned == user?.committee!).length !== 0 ? tasks.filter(task => !task.approved)
                         .filter(task => task.assigned == user?.committee!)
                         .map(task => (
                             <DashboardTask
                                 task={task}
                                 uid={task.createdBy}
                             />
-                        ))
+                        )) : <div> Nothing to see here! </div>
                     }
                 </div>
             </div>
