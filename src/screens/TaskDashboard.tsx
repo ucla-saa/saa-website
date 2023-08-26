@@ -50,7 +50,6 @@ const TaskDashboard = () => {
                 .filter((task) => task.approved)
                 .filter((task) => task.assigned == user?.committee)
             setTasks(pendingTasks.concat(committeeTasks));
-            console.log(tasks);
         }
         getAllTasks();
     }, [user]);
@@ -61,23 +60,24 @@ const TaskDashboard = () => {
                 <h1> Unapproved Tasks </h1>
                 <div className="UnapprovedTasks">
                     {tasks.length !== 0 && tasks.filter(task => !task.approved)
+                        .filter(task => task.assigned == user?.committee!)
                         .map(task => (
                             <DashboardTask
                                 task={task}
-                                uid={uid}
+                                uid={task.createdBy}
                             />
                         ))
                     }
                 </div>
             </div>
             <div className="Pending">
-                <h1> Pending Tasks </h1>
+            <h1> Pending Tasks </h1>
                 <div className="PendingTasks">
                     {tasks.length !== 0 &&  tasks.filter(task => task.approved && task.assigned == user?.committee)
                         .map(task => (
                             <DashboardTask
                                 task={task}
-                                uid={uid}
+                                uid={task.createdBy}
                             />
                         ))
                     }

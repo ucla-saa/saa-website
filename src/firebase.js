@@ -113,6 +113,7 @@ export async function getUserProfile(uid) {
         if (database.val()) {
             return database.val();
         }
+        return "unknown"
     }
     catch (error) {
         console.error('error: ', error)

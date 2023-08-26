@@ -1,7 +1,65 @@
 .DashboardTask {
-    color: #ffffff;
+    color: #005587;
+    text-align: left;
+    background-color: white;
+    border-radius: .5rem;
+}
+
+.DashboardTask .paragraph {
+    padding: .5rem;
+}
+
+.DashboardTask .Category {
+    font-weight: bold;
+    padding-top: .5rem;
+    padding-left: .5rem;
+    font-size: 1rem;
+    pointer-events: none;  
+}
+
+.DashboardTask .OpenClose {
+    float: right;
+    pointer-events: none;  
+}
+
+.DashboardTask .Task {
+    padding: 1rem; 
 }
 
 .DashboardTask a {
-    color: #d0d0d0;
+    color: #2774AE;
+}
+
+.DashboardTask .Assignees {
+    font-weight: thin;
+    padding-bottom: .5rem;
+    padding-right: .5rem;
+    font-size: 1rem;
+    text-align: right;
+    pointer-events: none;
+}
+
+.Creator {
+    pointer-events: none;
+}
+
+.Completed {
+    pointer-events: none;
+}
+
+.additionalDetails {
+    text-align: right;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+.CompletedNumber {
+    margin-left: .5rem;
+    float: left;
+    pointer-events: none;  
+}
+
+.wrapper :hover {
+    transform: scale(1.01);
+    transition: .1s;
 }

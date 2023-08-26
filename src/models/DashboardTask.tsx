@@ -2,7 +2,10 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getUserProfile, markTaskAsApproved } from "../firebase";
 import {Link} from '@mui/material';
+import Popover from '@mui/material/Popover';
 import '../styles/DashboardTask.css'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 interface DatabaseTask
 {
@@ -24,17 +27,22 @@ interface TaskProps
 const DashboardTask = (props: TaskProps) => {
     const {task, uid} = props;
     const [creator, setCreator] = useState("");
-
+    const [open, setOpen] = useState<HTMLDivElement | null>(null)
+    const [showApprovalButton, setShowApprovalButton] = useState<boolean>(false);
+    const handleOpen = (event : React.MouseEvent<HTMLDivElement>) => {
+        open ? setOpen(null) : setOpen(event.currentTarget ?? null)
+    }
 
     useEffect(() => {
         const getUserName = async () => {
-            const user = await getUserProfile(uid);
+            const user = await getUserProfile(task.createdBy);
             setCreator(user.name);
         }
         getUserName();
     }, []);
 
     const taskApproved = () => {
+        setShowApprovalButton(true);
         markTaskAsApproved(task);
     }
 
@@ -58,27 +66,32 @@ const DashboardTask = (props: TaskProps) => {
     }
 
     return (
-        <div className="DashboardTask">
-            <p>
-                <div className="Task">Task: {writeTask(task.task)}</div>
-                <div className="Category"> Category: {task.category}</div>
-                <div className="Assignees"> Assignees: {task.assigned}</div>
-                <div className="Category"> Creator: {creator}</div>
-                {task.approved == true ? <div className="Completed"> 
-                <div> Completed by: {task.completion.length-1} </div>
-                        {task.completion.length !== 0
-                        && task.completion.map(completion => (
-                            <text>{completion}</text>
-                        ))}
-                    </div> :
-                <div>
-                    <Button onClick={taskApproved} variant={"contained"}>
-                        Complete
-                    </Button>
-                </div>
-                }
-                
-            </p>
+        <div className="wrapper">
+            <div className="DashboardTask" onClick={handleOpen}>
+                <p className="paragraph">
+                    <div className="Category"> {task.category} 
+                        <div className="OpenClose"> 
+                            {open !== null ? <ArrowDropUpIcon/> : <ArrowDropDownIcon/>}
+                        </div>
+                    </div>
+                    <div className="Task">{writeTask(task.task)}</div>
+                    <div className="Assignees">{task.approved && <text className="CompletedNumber">Completed by: {task.completion.length-1}</text>}{task.assigned}</div>
+                    {open && <div className="additionalDetails">
+                        <div className="Creator"> created by {creator}</div>
+                            {task.approved == true ? <div className="Completed"> 
+                            <div> completed by </div>
+                                    {task.completion.length !== 0
+                                    && task.completion.map(completion => (
+                                        <text>{completion} </text>
+                                    ))}
+                                </div> : <div hidden={showApprovalButton}>
+                            <Button size="small" style={{margin: '.5rem'}}onClick={taskApproved} variant={"contained"}>
+                                Approve
+                            </Button>
+                        </div>}
+                    </div>}
+                </p>
+            </div>
         </div>
     )
 }
