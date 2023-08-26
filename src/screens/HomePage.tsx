@@ -72,7 +72,7 @@ const HomePage = () => {
                                 date={task.date}
                                 taskKey={task.key}
                                 task={task.task}
-                                uid={uid}
+                                username={user?.name!}
                             />
                     )) : <p>Nothing to see here!</p>}
                    </ul>
@@ -94,7 +94,7 @@ const HomePage = () => {
                                 date={task.date}
                                 taskKey={task.key}
                                 task={task.task}
-                                uid={uid}
+                                username={user?.name!}
                             />
                     ))}
                 </ul>
@@ -116,7 +116,7 @@ const HomePage = () => {
                                 date={task.date}
                                 taskKey={task.key}
                                 task={task.task}
-                                uid={uid}
+                                username={user?.name!}
                             />
                     ))}
                 </ul>

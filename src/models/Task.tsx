@@ -12,14 +12,13 @@ interface TaskProps
     date: String,
     taskKey: String,
     task: string,
-    uid: String,
+    username: String,
 }
 
 
 function Task (props: TaskProps)  {
-    const {approved, assigned, category, completion, createdBy, date, taskKey, task, uid} = props;
-    const [isStrikeThru, setStrikeThru] = useState((completion.indexOf(uid) !== -1) ? 'line-through' : 'none');
-    const urlToDirectoryImage = '../photos/directory_photo_neilkardan.png'
+    const {approved, assigned, category, completion, createdBy, date, taskKey, task, username} = props;
+    const [isStrikeThru, setStrikeThru] = useState((completion.indexOf(username) !== -1) ? 'line-through' : 'none');
 
     function writeTask(task: String) {
         const text = task;
@@ -42,14 +41,14 @@ function Task (props: TaskProps)  {
     }
 
     const taskCompletion = () => {
-        if (completion.indexOf(uid) == -1) {
-            completion.push(uid);
+        if (completion.indexOf(username) == -1) {
+            completion.push(username);
             setStrikeThru('line-through')
             console.log(completion)
         }
         else {
-            console.log(completion.indexOf(uid))
-            completion.splice(completion.indexOf(uid), 1);
+            console.log(completion.indexOf(username))
+            completion.splice(completion.indexOf(username), 1);
             setStrikeThru('none')
             console.log(completion)
         }

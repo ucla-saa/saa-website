@@ -24,13 +24,16 @@ const Header = () => {
     return (
         <React.Fragment>
             <Box >
-                <AppBar elevation={0} position="sticky" sx={{bgcolor: '#fcfffc', color: '#121212'}}>
+                <AppBar elevation={0} position="sticky" sx={{bgcolor: '#FFFDF6', color: '#121212'}}>
                     <Toolbar>
                         <Typography className="btn" variant='h3' component='h3'>
                             <Link to="/home">home</Link>
                         </Typography>
                         <Typography styleclassName="btn" variant='h3' component='h3'>
                             <Link to="/directory">directory</Link>
+                        </Typography>
+                        <Typography styleclassName="btn" variant='h3' component='h3'>
+                            <Link to="/taskdashboard">task dashboard</Link>
                         </Typography>
                         <Typography sx={{ml: 'auto'}} className="btn" variant='h3' component='h3'>
                             <Link to="/" onClick={signOut}>sign out</Link>

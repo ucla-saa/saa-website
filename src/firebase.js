@@ -40,7 +40,8 @@ export async function getTasks() {
     try {
         const database = await get(child(ref(getDatabase()), `tasks`));
         if (database.val()) {
-            return database.val();
+            const tasks = Object.values(database.val())
+            return tasks;
         }
     }
     catch (error) {
@@ -139,7 +140,7 @@ export async function getUserUID() {
         if (auth && auth.currentUser) {
             return auth.currentUser.uid;
         }
-        return null;
+        return "";
     }
     catch (error) {
         console.error('error: ', error);
@@ -152,6 +153,7 @@ export async function getTasksByUser(user) {
         const database = await get(child(ref(getDatabase()), `tasks`))
         if (database.val()) {
             const tasks = Object.values(database.val())
+                .filter(task => task.approved)
                 .filter(task => (task.assigned == user?.committee) || task.assigned == user?.position || task.category == 'Social' ) 
             return tasks
         }
@@ -210,6 +212,28 @@ export async function createNewTask(data) {
         else {
             throw 'error';
         }
+    }
+    catch (error) {
+        console.error('error: ', error);
+    }
+}
+
+export async function markTaskAsApproved(task) {
+    try {
+        const db = getDatabase();
+        const newTask = {
+            approved: true,
+            assigned: task.assigned,
+            category: task.category,
+            completion: task.completion,
+            date: task.date,
+            task: task.task,
+            key: task.key,
+            createdBy: task.createdBy,
+        }
+        const addToDB = {}
+        addToDB['/tasks/' + task.key] = newTask;
+        return update(ref(db), addToDB);
     }
     catch (error) {
         console.error('error: ', error);

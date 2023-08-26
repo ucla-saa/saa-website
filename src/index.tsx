@@ -12,6 +12,7 @@ import {
   createHashRouter,
   RouterProvider,
 } from "react-router-dom";
+import TaskDashboard from './screens/TaskDashboard';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -37,6 +38,10 @@ const router = createHashRouter([
   {
     path: "/createnewuser",
     element: <div><Header/><CreateUser/></div>
+  },
+  {
+    path: "/taskdashboard",
+    element: <div><Header/><TaskDashboard/></div>
   }
 ]);
 
