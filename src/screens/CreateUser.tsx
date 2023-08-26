@@ -8,6 +8,7 @@ import {committeeOptions, getCommitteePositions} from '../form-components/Consta
 import { FormInputPassword } from "../form-components/FormInputPassword";
 import { createNewUser } from '../firebase';
 import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 interface CreateUserInput {
     name: string,
@@ -34,14 +35,16 @@ const defaultValues = {
 }
 
 const CreateUser = () => {
+    let navigate = useNavigate();
     const { handleSubmit, reset, control, setValue, watch, getValues } = useForm<CreateUserInput>({
         defaultValues: defaultValues
       });
 
     const watchCommittee = watch("committee", "");
 
-    const onSubmit = (data: CreateUserInput) => {
-        createNewUser(data);
+    async function onSubmit (data: CreateUserInput) {
+        await createNewUser(data);
+        return navigate('/home');
     }
 
     return(
