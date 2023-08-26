@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.045a346e.css",
-    "main.js": "/static/js/main.5736bf64.js",
+    "main.css": "/static/css/main.e1b0310b.css",
+    "main.js": "/static/js/main.1f49608c.js",
     "static/media/directory_photo_neilkardan.jpg": "/static/media/directory_photo_neilkardan.48f0d1d7008efd77489d.jpg",
     "index.html": "/index.html",
-    "main.045a346e.css.map": "/static/css/main.045a346e.css.map",
-    "main.5736bf64.js.map": "/static/js/main.5736bf64.js.map"
+    "main.e1b0310b.css.map": "/static/css/main.e1b0310b.css.map",
+    "main.1f49608c.js.map": "/static/js/main.1f49608c.js.map"
   },
   "entrypoints": [
-    "static/css/main.045a346e.css",
-    "static/js/main.5736bf64.js"
+    "static/css/main.e1b0310b.css",
+    "static/js/main.1f49608c.js"
   ]
 }
