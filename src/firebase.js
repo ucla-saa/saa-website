@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, update} from "firebase/database";
+import { getStorage } from "firebase/storage";
 import { ref, child, get, set, query, equalTo, push } from "firebase/database";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, signOut} from 'firebase/auth';
 import {O2A} from 'object-to-array-convert';
@@ -240,5 +241,8 @@ export async function markTaskAsApproved(task) {
         console.error('error: ', error);
     }
 }
+
+//Storage
+export const storage = getStorage(firebase);
 
 export default firebase;
