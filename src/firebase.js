@@ -242,6 +242,48 @@ export async function markTaskAsApproved(task) {
     }
 }
 
+export async function createNewRecap(data) {
+    try {
+        const db = getDatabase();
+        const auth = getAuth();
+        if (auth && auth.currentUser) {
+            const newRecapKey = (await push(child(ref(db), 'recaps'))).key;
+            const newRecap = {
+                date: data.date,
+                summary: data.summary,
+                form: data.form,
+                key: newRecapKey,
+                createdBy:  auth.currentUser.uid
+            }
+            const addToDB = {}
+            addToDB['/recaps/' + newRecapKey] = newRecap;
+            return update(ref(db), addToDB);
+        }
+        else {
+            throw 'error';
+        }
+    }
+    catch (error) {
+        console.error('error: ', error);
+    }
+}
+
+export async function getRecaps() {
+    try {
+        const database = await get(child(ref(getDatabase()), `recaps`));
+        if (database.val()) {
+            const recaps = Object.values(database.val())
+            return recaps;
+        }
+        return []
+    }
+    catch (error) {
+        console.error('error: ', error)
+        throw error;
+    }
+}
+
+
 //Storage
 export const storage = getStorage(firebase);
 
