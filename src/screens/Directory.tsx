@@ -18,7 +18,7 @@ const Directory = () => {
         taskList: number[],
         profilePicture: string,
     }
-
+    let criteriaSelected = false;
     let testUser = {
         bod: false,
         committee: 'Internal Relations',
@@ -30,7 +30,7 @@ const Directory = () => {
         taskList: [0],
         profilePicture: 'https://firebasestorage.googleapis.com/v0/b/ucla-saa-website.appspot.com/o/images%2FIMG_0128.jpg831f780c-d9f7-40eb-a83c-da8d8e5a752f?alt=media&token=4faa36ec-928f-44cd-84eb-0048741b3a47'
     }
-    let criteria = 'Media Marketing'
+    let criteria = criteriaSelected ? 'Media Marketing' : null
     //const users = [testUser];
 
     const [imageUpload, setImageUpload] = useState<File | null>(null);
@@ -88,7 +88,7 @@ const Directory = () => {
             <button onClick={uploadImage}>Upload Image</button>
           
             {users
-                .filter(x => x.committee == criteria)
+                .filter(x => criteriaSelected ? x.committee == criteria : x)
                 .map(x => (
                     <div>
                         <h2>image below</h2>
