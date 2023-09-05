@@ -268,6 +268,22 @@ export async function createNewRecap(data) {
     }
 }
 
+export async function getAllUsers() {
+    try {
+        const database = await get(child(ref(getDatabase()), `users`));
+        if (database.val()) {
+            const users = Object.values(database.val())
+            return users
+        }
+        return []
+    }
+    catch (error) {
+        console.error('error: ', error)
+        throw error;
+    }
+}
+
+
 export async function getRecaps() {
     try {
         const database = await get(child(ref(getDatabase()), `recaps`));

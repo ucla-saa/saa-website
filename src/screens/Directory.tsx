@@ -2,7 +2,7 @@
 import image from '../photos/directory_photo_neilkardan.jpg';
 import Member from '../models/Member';
 import { useState, useEffect } from "react";
-import { storage } from "../firebase";
+import { getAllUsers, storage } from "../firebase";
 import {ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import {v4 } from "uuid";
 
@@ -15,7 +15,8 @@ const Directory = () => {
         makeupHours: number,
         name: string,
         position: string,
-        taskList: number[]
+        taskList: number[],
+        profilePicture: string,
     }
 
     let testUser = {
@@ -26,14 +27,15 @@ const Directory = () => {
         makeupHours: 0,
         name: 'Neil Kardan',
         position: 'Executive Director',
-        taskList: [0]
+        taskList: [0],
+        profilePicture: 'https://firebasestorage.googleapis.com/v0/b/ucla-saa-website.appspot.com/o/images%2FIMG_0128.jpg831f780c-d9f7-40eb-a83c-da8d8e5a752f?alt=media&token=4faa36ec-928f-44cd-84eb-0048741b3a47'
     }
-    let criteria = 'Internal Relations'
-    let urls = '../photos/directory_photo_neilkardan.jpg';
-    const users = [testUser];
+    let criteria = 'Media Marketing'
+    //const users = [testUser];
 
     const [imageUpload, setImageUpload] = useState<File | null>(null);
     const [imageList, setImageList] = useState<string[]>([]);
+    const [users, setUserList] = useState<any[]>([]);
 
     const imageListRef = ref(storage, "images/");
     const uploadImage = () =>{
@@ -43,17 +45,37 @@ const Directory = () => {
             alert("Image Uploaded");
         });
     };
+    useEffect(() => {
+        const allUsers = async () => {
+            const userList = await getAllUsers();
+            setUserList(userList);
+        }
+        allUsers();
+    })
 
     useEffect(() => {
         listAll(imageListRef).then((response) => {
+            console.log(response);
+            console.log(response.items);
             response.items.forEach((item) =>{
                 getDownloadURL(item).then((url)=>{
                     setImageList((prev)=>[...prev,url]);
                 })
             })
         });
+        console.log('urls: ', imageList)
     }, []);
 
+    const getUsersImage = (profilePicture: string) => {
+        console.log(imageList)
+        console.log(profilePicture)
+        let userImg = imageList.filter(x => x == profilePicture)
+        if (userImg) {
+            console.log(userImg);
+            return userImg[0];
+        }
+
+    }
     return (
         <div className="Directory">
             <input 
@@ -64,12 +86,13 @@ const Directory = () => {
                 }}
             />
             <button onClick={uploadImage}>Upload Image</button>
-            {imageList.map((url) =>{
-                return <img src={url}/>
-            })}
+          
             {users
                 .filter(x => x.committee == criteria)
                 .map(x => (
+                    <div>
+                        <h2>image below</h2>
+                    <img style={{maxWidth: "250px", textAlign: 'center'}}src={getUsersImage(x.profilePicture)}></img>
                     <Member
                         bod={x.bod}
                         committee={x.committee}
@@ -79,7 +102,9 @@ const Directory = () => {
                         name={x.name}
                         position={x.position}
                         taskList={x.taskList}
+                        profilePicture={x.profilePicture}
                     />
+                    </div>
                 ))}  
         </div>
     )
