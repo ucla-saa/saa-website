@@ -180,7 +180,7 @@ export async function markTaskAsComplete(approved, assigned, category, completio
             createdBy: createdBy,
             key: key,
         }
-
+        console.log(newTask);
         const updates = {}
         updates['/tasks/' + newTask.key] = newTask
         return update(ref(db), updates);

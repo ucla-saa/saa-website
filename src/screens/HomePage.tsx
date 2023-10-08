@@ -3,16 +3,22 @@ import React, { useEffect, useState } from 'react';
 import '../styles/HomePage.css';
 import firebase, { getCurrentProfile, getTasks, getTasksByUser, getUserProfile, getUserUID, isUserSignedIn } from '../firebase.js';
 import Task from '../models/Task';
+import AssignedTask from '../models/AssignedTask';
 import {useNavigate} from 'react-router-dom'
 import {User} from '../models/User'
 import {TaskCategory} from '../form-components/ConstantObjects';
+import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const HomePage = () => {
     const [tasks, setTasks] = useState<Array<any>>([]);
     const [signedIn, setSignedIn] = useState<boolean>(true);
     const [user, setUser] = useState<User>()
     const [uid, setUID] = useState<any>("");
-
+    const [category, setCategory] = useState<TaskCategory>(TaskCategory.SOCIAL)
+    const [showCompleted, setShowCompleted] = useState<boolean>(true)
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -49,78 +55,32 @@ const HomePage = () => {
         fetchTasks();
         getUID();
     }, [user]);
-
     
     return(
         <div className="HomePage">
-           <h1>This Week in SAA {user && user.name && <text>for {user.name}:</text>}</h1>
-           <div className="Social">
-                
-                <h2>
-                    Social
-                </h2>
-                   <ul>
-                   {(tasks.length !== 0 && tasks.filter(task => task.category == TaskCategory.SOCIAL).length !== 0) ? tasks
-                   .filter(task => task.category == TaskCategory.SOCIAL)
-                   .map(task => (
-                    <Task 
-                                approved={task.approved}
-                                assigned={task.assigned}
-                                category={task.category}
-                                completion={task.completion}
-                                createdBy={task.createdBy}
-                                date={task.date}
-                                taskKey={task.key}
-                                task={task.task}
-                                username={user?.name!}
-                            />
-                    )) : <p>Nothing to see here!</p>}
-                   </ul>
-           </div>
-           <div className="Committee">
-                <h2>
-                    Committee
-                </h2>
-                <ul>
-                    {tasks.length !== 0 && tasks
-                        .filter(task => task.category == TaskCategory.COMMITTEE && (task.assigned == user?.position || task.assigned == user?.committee))
+            <div className="buttonSpacer">
+            </div>
+            <ul>
+            <div className="background">
+                <div className="assignedTasks">
+                    {(tasks.length !== 0 && tasks.filter(task => task.category == category).length !== 0) ? 
+                        tasks.filter(task => task)
                         .map(task => (
-                            <Task 
-                                approved={task.approved}
-                                assigned={task.assigned}
-                                category={task.category}
-                                completion={task.completion}
-                                createdBy={task.createdBy}
-                                date={task.date}
-                                taskKey={task.key}
-                                task={task.task}
-                                username={user?.name!}
-                            />
-                    ))}
-                </ul>
-           </div>
-           <div className="SAA">
-                <h2> 
-                        SAA
-                </h2>
-                <ul>
-                    {tasks.length !== 0 && tasks
-                        .filter(task => task.category == TaskCategory.ALL_SAA)
-                        .map(task => (
-                            <Task 
-                                approved={task.approved}
-                                assigned={task.assigned}
-                                category={task.category}
-                                completion={task.completion}
-                                createdBy={task.createdBy}
-                                date={task.date}
-                                taskKey={task.key}
-                                task={task.task}
-                                username={user?.name!}
-                            />
-                    ))}
-                </ul>
-           </div>
+                            <AssignedTask 
+                                        approved={task.approved}
+                                        assigned={task.assigned}
+                                        category={task.category}
+                                        completion={task.completion}
+                                        createdBy={task.createdBy}
+                                        date={task.date}
+                                        taskKey={task.key}
+                                        task={task.task}
+                                        username={user?.name!}
+                                    />
+                            )) : <p>Nothing to see here!</p>}
+                    </div>
+                </div>
+            </ul>
         </div>
     )
 }
