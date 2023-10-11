@@ -63,3 +63,7 @@
     transform: scale(1.01);
     transition: .1s;
 }
+
+.deleteTask {
+    float: left;
+}

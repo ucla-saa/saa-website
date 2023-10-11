@@ -7,38 +7,18 @@
     margin-top: 2rem;
 }
 
-.HomePage .Social {
-    width: 60%;
-    text-align: left;
-}
-
-.HomePage .Committee {
-    width: 60%;
-    text-align: left;
-}
-
-.HomePage .SAA {
-    width: 60%;
-    text-align: left;
-}
 
 .HomePage .assignedTasks {
     text-align: center;
-    border-radius: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 90%;
     margin: auto;
-}
-
-.HomePage .background {
+    padding: 1rem;
     background-color: #005587;
-    margin: auto;
     border-radius: 1rem;
-    filter: drop-shadow(0rem 1rem 1rem #a0a0a0);
-    padding: 2rem;
 }
 
-.HomePage .buttonSpacer {
-    width: 50%;
-    justify-content: space-evenly;
-    margin: auto;
-    display: flex;
+.HomePage .gridTaskItem {
+    padding: 1rem;
 }

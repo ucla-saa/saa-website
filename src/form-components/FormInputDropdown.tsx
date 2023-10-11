@@ -32,7 +32,7 @@ export const FormInputDropdown: React.FC<FormInputProps> = ({
   };
 
   return (
-    <div style={{width: "20%"}}>
+    <React.Fragment>
         <FormControl fullWidth size="small">
             <InputLabel>{label}</InputLabel>
         <Controller
@@ -49,6 +49,6 @@ export const FormInputDropdown: React.FC<FormInputProps> = ({
             name={name}
         />
         </FormControl>
-    </div>
+    </React.Fragment>
   );
 };

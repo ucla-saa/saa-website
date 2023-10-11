@@ -56,31 +56,71 @@ const HomePage = () => {
         getUID();
     }, [user]);
     
-    return(
+    return (
         <div className="HomePage">
-            <div className="buttonSpacer">
-            </div>
-            <ul>
-            <div className="background">
-                <div className="assignedTasks">
-                    {(tasks.length !== 0 && tasks.filter(task => task.category == category).length !== 0) ? 
-                        tasks.filter(task => task)
-                        .map(task => (
-                            <AssignedTask 
-                                        approved={task.approved}
-                                        assigned={task.assigned}
-                                        category={task.category}
-                                        completion={task.completion}
-                                        createdBy={task.createdBy}
-                                        date={task.date}
-                                        taskKey={task.key}
-                                        task={task.task}
-                                        username={user?.name!}
-                                    />
-                            )) : <p>Nothing to see here!</p>}
+           
+                <h2> Hello! Welcome back {user?.name}</h2>
+                <div className="background">
+                    <div className="assignedTasks">
+                        <div className="gridTaskItem">
+                            <ul>
+                            {(tasks.length !== 0 && 
+                                tasks.filter(task => task.category === TaskCategory.SOCIAL)
+                                .map(task => (
+                                    <AssignedTask 
+                                                approved={task.approved}
+                                                assigned={task.assigned}
+                                                category={task.category}
+                                                completion={task.completion}
+                                                createdBy={task.createdBy}
+                                                date={task.date}
+                                                taskKey={task.key}
+                                                task={task.task}
+                                                username={user?.name!}
+                                            />
+                                    )))}
+                            </ul>
+                        </div>
+                        <div className="gridTaskItem">
+                            <ul>
+                            {(tasks.length !== 0 && 
+                                tasks.filter(task => task.category === TaskCategory.COMMITTEE)
+                                .map(task => (
+                                    <AssignedTask 
+                                                approved={task.approved}
+                                                assigned={task.assigned}
+                                                category={task.category}
+                                                completion={task.completion}
+                                                createdBy={task.createdBy}
+                                                date={task.date}
+                                                taskKey={task.key}
+                                                task={task.task}
+                                                username={user?.name!}
+                                            />
+                                    )))}
+                                </ul>
+                        </div>
+                        <div className="gridTaskItem">
+                        <ul>
+                            {(tasks.length !== 0 && 
+                                tasks.filter(task => task.category === TaskCategory.ALL_SAA)
+                                .map(task => (
+                                    <AssignedTask 
+                                                approved={task.approved}
+                                                assigned={task.assigned}
+                                                category={task.category}
+                                                completion={task.completion}
+                                                createdBy={task.createdBy}
+                                                date={task.date}
+                                                taskKey={task.key}
+                                                task={task.task}
+                                                username={user?.name!}
+                                            />
+                                    )))}
+                        </ul>
+                        </div>
                     </div>
                 </div>
-            </ul>
         </div>
     )
 }

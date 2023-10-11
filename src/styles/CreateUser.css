@@ -1,0 +1,64 @@
+.form {
+    width: 80%;
+    margin: auto;
+}
+
+.NameEmail {
+    width: 100%;
+}
+
+.Name {
+    width: 40%;
+    float: left;
+}
+
+.Email {
+    width: 55%;
+    float: right;
+}
+
+.PhoneMajor {
+    width: 100%;
+}
+
+.Phone {
+    width: 40%;
+    float: left;
+}
+
+.Major {
+    width: 55%;
+    float: right;
+}
+
+.CommitteePosition {
+    width: 100%;
+}
+
+.Committee {
+    width: 40%;
+    float: left;
+}
+
+.Position {
+    width: 55%;
+    float: right;
+}
+
+.UploadSubmit {
+    clear: both;
+}
+
+.UploadImage {
+    width: 50%;
+    float: left;
+}
+
+.Submit {
+    width: 40%;
+    float: right;
+    padding: 2rem;
+    padding-right: 0;
+}
+
+

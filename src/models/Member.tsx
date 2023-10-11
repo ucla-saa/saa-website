@@ -1,6 +1,7 @@
 import '../styles/Member.css';
 interface MemberProps
 {
+    image?: string,
     bod: boolean,
     committee: string,
     email: string,
@@ -14,17 +15,18 @@ interface MemberProps
 
 
 function Member (props: MemberProps)  {
-    const {bod, committee, email, major, makeupHours, name, position, taskList, profilePicture} = props;
+    const {image, bod, committee, email, major, makeupHours, name, position, taskList, profilePicture} = props;
     
     return (
         <div className="Member">
+            <img className="profilePicture" style={{maxWidth: '250px', maxHeight: '250px'}} src={image} ></img>
             <h2>{name}</h2>
-            <h3>
+            <h4 style={{fontWeight: 'normal'}}>
                 {committee}
                 <br/>{position}
                 <br/>{major}
                 <br/>{email}
-            </h3>
+            </h4>
         </div>
     )
 

@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getUserProfile, markTaskAsApproved } from "../firebase";
+import { getUserProfile, markTaskAsApproved, deleteTask } from "../firebase";
 import {Link} from '@mui/material';
 import Popover from '@mui/material/Popover';
 import '../styles/DashboardTask.css'
@@ -15,7 +15,7 @@ interface DatabaseTask
     completion: String[],
     createdBy: String,
     date: String,
-    taskKey: String,
+    key: String,
     task: string,
 }
 interface TaskProps
@@ -65,6 +65,11 @@ const DashboardTask = (props: TaskProps) => {
         }
     }
 
+    const removeTask = () => {
+        console.log(task);
+        deleteTask(task.key)
+    }
+
     return (
         <div className="wrapper">
             <div className="DashboardTask" onClick={handleOpen}>
@@ -77,6 +82,11 @@ const DashboardTask = (props: TaskProps) => {
                     <div className="Task">{writeTask(task.task)}</div>
                     <div className="Assignees">{task.approved && <text className="CompletedNumber">Completed by: {task.completion.length-1}</text>}{task.assigned}</div>
                     {open && <div className="additionalDetails">
+                        {task.approved == true && <div className="deleteTask">
+                            <Button variant="contained" onClick={removeTask}>
+                                Delete Task
+                            </Button>
+                        </div>}
                         <div className="Creator"> created by {creator}</div>
                             {task.approved == true ? <div className="Completed"> 
                             <div> completed by </div>
@@ -89,6 +99,7 @@ const DashboardTask = (props: TaskProps) => {
                                 Approve
                             </Button>
                         </div>}
+                        
                     </div>}
                 </p>
             </div>

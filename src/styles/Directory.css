@@ -1,0 +1,12 @@
+.profile-picture {
+    text-align: center;
+    color: #005587;
+}
+
+.photos {
+    width: 90%;
+    margin: auto;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}

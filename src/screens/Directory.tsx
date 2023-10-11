@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { getAllUsers, storage } from "../firebase";
 import {ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import {v4 } from "uuid";
+import '../styles/Directory.css';
 
 const Directory = () => {
     interface testUser {
@@ -38,13 +39,7 @@ const Directory = () => {
     const [users, setUserList] = useState<any[]>([]);
 
     const imageListRef = ref(storage, "images/");
-    const uploadImage = () =>{
-        if (imageUpload == null) return;
-        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`)
-        uploadBytes(imageRef, imageUpload).then(()=> {
-            alert("Image Uploaded");
-        });
-    };
+    
     useEffect(() => {
         const allUsers = async () => {
             const userList = await getAllUsers();
@@ -55,57 +50,47 @@ const Directory = () => {
 
     useEffect(() => {
         listAll(imageListRef).then((response) => {
-            console.log(response);
-            console.log(response.items);
             response.items.forEach((item) =>{
                 getDownloadURL(item).then((url)=>{
                     setImageList((prev)=>[...prev,url]);
                 })
             })
         });
-        console.log('urls: ', imageList)
     }, []);
 
-    const getUsersImage = (profilePicture: string) => {
-        console.log(imageList)
-        console.log(profilePicture)
-        let userImg = imageList.filter(x => x == profilePicture)
+    const getUsersImage = (user: any) => {
+        let userImg = imageList.filter(x => x.includes(toUnderlined(user.name!)))
         if (userImg) {
-            console.log(userImg);
             return userImg[0];
         }
-
     }
+
+    const toUnderlined = (username: String) => {
+        return username.split(' ').join('_') + "_profilePicture"
+    }
+
     return (
         <div className="Directory">
-            <input 
-                type="file" 
-                onChange={(event) => {
-                    if (!event.target.files) return;
-                    setImageUpload(event.target.files[0]);
-                }}
-            />
-            <button onClick={uploadImage}>Upload Image</button>
-          
-            {users
-                .filter(x => criteriaSelected ? x.committee == criteria : x)
-                .map(x => (
-                    <div>
-                        <h2>image below</h2>
-                    <img style={{maxWidth: "250px", textAlign: 'center'}}src={getUsersImage(x.profilePicture)}></img>
-                    <Member
-                        bod={x.bod}
-                        committee={x.committee}
-                        email={x.email}
-                        major={x.major}
-                        makeupHours={x.makeupHours}
-                        name={x.name}
-                        position={x.position}
-                        taskList={x.taskList}
-                        profilePicture={x.profilePicture}
-                    />
-                    </div>
-                ))}  
+            <div className="photos">
+                {users
+                    .filter(x => criteriaSelected ? x.committee == criteria : x)
+                    .map(x => (
+                        <div className="profile-picture">
+                            <Member
+                                image={getUsersImage(x)}
+                                bod={x.bod}
+                                committee={x.committee}
+                                email={x.email}
+                                major={x.major}
+                                makeupHours={x.makeupHours}
+                                name={x.name}
+                                position={x.position}
+                                taskList={x.taskList}
+                                profilePicture={x.profilePicture}
+                            />
+                        </div>
+                    ))}  
+            </div>
         </div>
     )
 }

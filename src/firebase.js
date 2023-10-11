@@ -97,14 +97,17 @@ export async function createNewUser(data) {
             makeupHours: data.makeupHours,
             name: data.name,
             phone: data.phone,
-            position: data.position
+            position: data.position,
         });
+        alert("user successfully created!")
     })
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error("error code:", errorCode)
         console.error("error message:", errorMessage)
+        alert("Unable to create user. \n Error code: ", error.code);
+        throw error;
     });
 }
 
@@ -242,6 +245,18 @@ export async function markTaskAsApproved(task) {
     }
 }
 
+export async function deleteTask(key) {
+    try {
+        const db = getDatabase();
+        const removeFromDB = {}
+        removeFromDB['/tasks/' + key] = null;
+        return update(ref(db), removeFromDB);
+    }
+    catch (error) {
+        console.error('error: ', error);
+    }
+}
+
 export async function createNewRecap(data) {
     try {
         const db = getDatabase();
@@ -298,6 +313,7 @@ export async function getRecaps() {
         throw error;
     }
 }
+
 
 
 //Storage
