@@ -4,36 +4,37 @@
     width: 85%;
     text-align: center;
     margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
 }
 
-.TaskDashboard .Unapproved {
-    background-color: #005587;
-    color: #FFFDF6;
-    width: 47.5%;
-    font-size: 1.25rem;
-    float: left;
-    filter: drop-shadow(0rem 1rem 1rem #a0a0a0);
-    border-radius: 1rem;
-}
-
+.TaskDashboard .Unapproved,
 .TaskDashboard .Pending {
     background-color: #005587;
     color: #FFFDF6;
-    width: 47.5%;
+    width: 100%;
     font-size: 1.25rem;
-    float: right;
     filter: drop-shadow(0rem 1rem 1rem #a0a0a0);
     border-radius: 1rem;
 }
 
-.TaskDashboard .UnapprovedTasks {
-    padding: 2rem;
-    padding-top: 0;
-    
+.TaskDashboard .Unapproved {
+    grid-column: 1;
 }
 
+.TaskDashboard .Pending {
+    grid-column: 2;
+}
 
+.TaskDashboard .UnapprovedTasks,
 .TaskDashboard .PendingTasks {
     padding: 2rem;
     padding-top: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .TaskDashboard {
+        grid-template-columns: 1fr; /* Set to a single column on mobile (or smaller) screens */
+    }
 }

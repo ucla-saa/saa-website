@@ -33,7 +33,7 @@ const Header = () => {
                             <Link to="/directory">directory</Link>
                         </Typography>
                         <Typography styleclassName="btn" variant='h3' component='h3'>
-                            <Link to="/taskdashboard">task dashboard</Link>
+                            <Link to="/taskdashboard">tasks</Link>
                         </Typography>
                         <Typography sx={{ml: 'auto'}} className="btn" variant='h3' component='h3'>
                             <Link to="/" onClick={signOut}>sign out</Link>
