@@ -37,4 +37,7 @@
     .TaskDashboard {
         grid-template-columns: 1fr; /* Set to a single column on mobile (or smaller) screens */
     }
+    .TaskDashboard .Pending {
+        grid-column: 1;
+    }
 }
