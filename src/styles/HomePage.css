@@ -22,3 +22,9 @@
 .HomePage .gridTaskItem {
     padding: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+    .HomePage .assignedTasks {
+        grid-template-columns: 1fr; /* Set to a single column on mobile (or smaller) screens */
+    }
+}

@@ -19,7 +19,7 @@ function Member (props: MemberProps)  {
     
     return (
         <div className="Member">
-            <img className="profilePicture" style={{maxWidth: '250px', maxHeight: '250px'}} src={image} ></img>
+            <img className="profilePicture" style={{width: '250px', height: '250px', objectFit: 'cover'}} src={image} ></img>
             <h2>{name}</h2>
             <h4 style={{fontWeight: 'normal'}}>
                 {committee}

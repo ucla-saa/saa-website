@@ -35,9 +35,6 @@ const Header = () => {
                         <Typography styleclassName="btn" variant='h3' component='h3'>
                             <Link to="/taskdashboard">task dashboard</Link>
                         </Typography>
-                        <Typography styleclassName="btn" variant='h3' component='h3'>
-                            <Link to="/meetingrecaps">meeting recaps</Link>
-                        </Typography>
                         <Typography sx={{ml: 'auto'}} className="btn" variant='h3' component='h3'>
                             <Link to="/" onClick={signOut}>sign out</Link>
                         </Typography>

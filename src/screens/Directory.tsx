@@ -74,6 +74,7 @@ const Directory = () => {
             <div className="photos">
                 {users
                     .filter(x => criteriaSelected ? x.committee == criteria : x)
+                    .sort((a, b) => a.name > b.name ? a.name : b.name)
                     .map(x => (
                         <div className="profile-picture">
                             <Member
