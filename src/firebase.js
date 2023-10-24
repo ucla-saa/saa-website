@@ -157,9 +157,21 @@ export async function getTasksByUser(user) {
     try {
         const database = await get(child(ref(getDatabase()), `tasks`))
         if (database.val()) {
+
+            const currentDate = new Date();
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            const oneMonthAhead = new Date();
+            oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 1);
+
             const tasks = Object.values(database.val())
                 .filter(task => task.approved)
-                .filter(task => (task.assigned == user?.committee) || task.assigned == user?.position || task.category == 'Social' ) 
+                .filter(task => (task.assigned == user?.committee) || task.assigned == user?.position || task.category == 'Social' || task.category == 'All-SAA' ) 
+                .filter((task) => {
+                    const taskDate = new Date(task.date);
+                    return taskDate >= oneMonthAgo && taskDate <= oneMonthAhead;
+                });
+            
             return tasks
         }
         return []

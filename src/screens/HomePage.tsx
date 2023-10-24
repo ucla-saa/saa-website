@@ -64,7 +64,7 @@ const HomePage = () => {
                     <div className="assignedTasks">
                         <div className="gridTaskItem">
                             <ul>
-                            {(tasks.length !== 0 && 
+                            {((tasks.length !== 0 && tasks.filter(task => task.category === TaskCategory.SOCIAL).length !== 0) ? 
                                 tasks.filter(task => task.category === TaskCategory.SOCIAL)
                                 .map(task => (
                                     <AssignedTask 
@@ -78,12 +78,13 @@ const HomePage = () => {
                                                 task={task.task}
                                                 username={user?.name!}
                                             />
-                                    )))}
+                                    )) : <div> No Social tasks to see! </div>)
+                                    }
                             </ul>
                         </div>
                         <div className="gridTaskItem">
                             <ul>
-                            {(tasks.length !== 0 && 
+                            {((tasks.length !== 0 && tasks.filter(task => task.category === TaskCategory.COMMITTEE).length !== 0) ? 
                                 tasks.filter(task => task.category === TaskCategory.COMMITTEE)
                                 .map(task => (
                                     <AssignedTask 
@@ -97,12 +98,13 @@ const HomePage = () => {
                                                 task={task.task}
                                                 username={user?.name!}
                                             />
-                                    )))}
+                                    )) : <div> No committee tasks remaining! </div>)
+                                }
                                 </ul>
                         </div>
                         <div className="gridTaskItem">
                         <ul>
-                            {(tasks.length !== 0 && 
+                            {((tasks.length !== 0 && tasks.filter(task => task.category === TaskCategory.ALL_SAA).length !== 0) ? 
                                 tasks.filter(task => task.category === TaskCategory.ALL_SAA)
                                 .map(task => (
                                     <AssignedTask 
@@ -116,7 +118,8 @@ const HomePage = () => {
                                                 task={task.task}
                                                 username={user?.name!}
                                             />
-                                    )))}
+                                    )): <div> No All SAA tasks! </div>)
+                                }
                         </ul>
                         </div>
                     </div>

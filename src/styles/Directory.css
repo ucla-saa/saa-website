@@ -8,11 +8,30 @@
     margin: auto;
     margin-top: 2rem;
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
 }
 
+.filter {
+    text-align: center;
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.selectCommittee {
+    min-width: 120px;
+    max-height: 40px;
+}
+
+.hiddenIcon {
+    visibility: hidden;
+}
 @media screen and (max-width: 768px) {
     .photos {
         grid-template-columns: 1fr; /* Set to a single column on mobile (or smaller) screens */
+    }
+
+    .selectCommittee {
+        min-width: 120px;
+        min-height: 25px;
     }
 }

@@ -22,10 +22,11 @@ interface TaskProps
 {
     task: DatabaseTask,
     uid: String,
+    updateParent: () => void, 
 }
 
 const DashboardTask = (props: TaskProps) => {
-    const {task, uid} = props;
+    const {task, uid, updateParent} = props;
     const [creator, setCreator] = useState("");
     const [open, setOpen] = useState<HTMLDivElement | null>(null)
     const [showApprovalButton, setShowApprovalButton] = useState<boolean>(false);
@@ -44,6 +45,7 @@ const DashboardTask = (props: TaskProps) => {
     const taskApproved = () => {
         setShowApprovalButton(true);
         markTaskAsApproved(task);
+        updateParent();
     }
 
     function writeTask(task: String) {
@@ -68,6 +70,7 @@ const DashboardTask = (props: TaskProps) => {
     const removeTask = () => {
         console.log(task);
         deleteTask(task.key)
+        updateParent();
     }
 
     return (

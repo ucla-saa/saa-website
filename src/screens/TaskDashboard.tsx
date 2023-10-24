@@ -10,7 +10,13 @@ const TaskDashboard = () => {
     const [signedIn, setSignedIn] = useState<boolean>(true);
     const [user, setUser] = useState<User>();
     const [uid, setUID] = useState<any>("");
+    const [refresh, setRefresh] = useState<boolean>(false);
 
+    const updateParent = () => {
+        setRefresh(!refresh);
+        console.log(refresh);
+    }
+    
     let navigate = useNavigate();
     
     useEffect(() => {
@@ -46,13 +52,14 @@ const TaskDashboard = () => {
         const getAllTasks = async () => {
             const allTasks = await getTasks()
             const pendingTasks = allTasks!.filter((task) => !task.approved)
+            const userCreatedTasks = allTasks!.filter((task => task.createdBy == uid && task.assigned != user?.committee));
             const committeeTasks = allTasks!
                 .filter((task) => task.approved)
                 .filter((task) => task.assigned == user?.committee)
-            setTasks(pendingTasks.concat(committeeTasks));
+            setTasks(pendingTasks.concat(committeeTasks).concat(userCreatedTasks));
         }
         getAllTasks();
-    }, [user]);
+    }, [user, refresh]);
 
     return (
         <div className="TaskDashboard">
@@ -66,6 +73,7 @@ const TaskDashboard = () => {
                             <DashboardTask
                                 task={task}
                                 uid={task.createdBy}
+                                updateParent={updateParent}
                             />
                         )) : <div> Nothing to see here! </div>
                     }
@@ -74,11 +82,12 @@ const TaskDashboard = () => {
             <div className="Pending">
             <h1> Pending Tasks </h1>
                 <div className="PendingTasks">
-                    {tasks.length !== 0 &&  tasks.filter(task => task.approved && task.assigned == user?.committee)
+                    {tasks.length !== 0 &&  tasks.filter(task => task.approved && (task.assigned == user?.committee || task.createdBy == uid))
                         .map(task => (
                             <DashboardTask
                                 task={task}
                                 uid={task.createdBy}
+                                updateParent={updateParent}
                             />
                         ))
                     }

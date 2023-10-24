@@ -1,11 +1,13 @@
 
 import image from '../photos/directory_photo_neilkardan.jpg';
 import Member from '../models/Member';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getAllUsers, storage } from "../firebase";
 import {ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import {v4 } from "uuid";
 import '../styles/Directory.css';
+import { TextField, Grid, ButtonGroup, Button, Select, MenuItem } from '@mui/material'; 
+import SearchIcon from '@mui/icons-material/Search';
 
 const Directory = () => {
     interface testUser {
@@ -37,6 +39,8 @@ const Directory = () => {
     const [imageUpload, setImageUpload] = useState<File | null>(null);
     const [imageList, setImageList] = useState<string[]>([]);
     const [users, setUserList] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedCommittee, setSelectedCommittee] = useState("All");
 
     const imageListRef = ref(storage, "images/");
     
@@ -71,11 +75,62 @@ const Directory = () => {
 
     return (
         <div className="Directory">
+            <div className="filters">
+            <Grid container spacing={1} alignItems="center" justifyContent="center">
+                <Grid item>
+                    <SearchIcon/>
+                </Grid>
+                <Grid item>
+                    <TextField
+                        label="Search"
+                        variant="outlined"
+                        size="small"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </Grid>
+                <Grid item>
+                    <span className="hiddenIcon"><SearchIcon/></span>
+                </Grid>
+            </Grid>
+            <br/>
+            <Grid container spacing={1} alignItems="center" justifyContent="center">
+                    <Grid item>
+                        <Select
+                            className="selectCommittee"
+                            value={selectedCommittee}
+                            onChange={(e) => setSelectedCommittee(e.target.value)}
+                        >
+                            <MenuItem value="All">All</MenuItem>
+                            <MenuItem value="Alumni Relations">Alumni Relations</MenuItem>
+                            <MenuItem value="Bruin Spirit">Bruin Spirit</MenuItem>
+                            <MenuItem value="Bruin Community">Bruin Community</MenuItem>
+                            <MenuItem value="External Relations">External Relations</MenuItem>
+                            <MenuItem value="Internal Relations">Internal Relations</MenuItem>
+                            <MenuItem value="Media Marketing">Media Marketing</MenuItem>
+                            <MenuItem value="Professional Development">Professional Development</MenuItem>
+                            <MenuItem value="Spring Sing">Spring Sing</MenuItem>
+                        </Select>
+                    </Grid>
+            </Grid>
+            
+            </div>
             <div className="photos">
-                {users
-                    .filter(x => criteriaSelected ? x.committee == criteria : x)
-                    .sort((a, b) => a.name > b.name ? a.name : b.name)
-                    .map(x => (
+           {users
+                .filter((user) => {
+                    return selectedCommittee === "All"
+                        ? true
+                        : user.committee === selectedCommittee;
+                })
+                .filter((user) => {
+                    if (searchQuery === "") {
+                        return true;
+                    } else {
+                        return user.name.toLowerCase().includes(searchQuery.toLowerCase());
+                    }
+                })
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((x) => (
                         <div className="profile-picture">
                             <Member
                                 image={getUsersImage(x)}
